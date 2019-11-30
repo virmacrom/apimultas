@@ -1,0 +1,21 @@
+{
+  "name": "aseguradora",
+  "version": "1.0.0",
+  "description": "API aseguradora",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/virmacrom/apimultas.git"
+  },
+  "homepage": "https://github.com/virmacrom/apimultas.git",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Ignacio y Virginia",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "start": "^5.1.0"
+  }
+}
