@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "nedb": "^1.8.0",
     "start": "^5.1.0"
-
   }
 }
