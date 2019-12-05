@@ -17,7 +17,7 @@ var DB_FILE_NAME= __dirname + "/aseguradoras.json";
 //     {"DNI":"3456899c","id":DNI+"0008","puntos":"12","name": "Exceso_velocidad","Exceso":"30","rango":"500+"},
 //     {"DNI":"3456899c","id":DNI+"0009","puntos":"12","name": "Drogas","rango":"500+"},
 //     {"DNI":"3456899c","id":DNI+"0010","puntos":"12","name": "Alcohol","rango":"500+"},
-//historico de multas/ cambiar conductor/ PUNTOS/ 
+//historico de multas/ cambiar conductor/ PUNTOS/
 // ];
 
 console.log("Starting API server...");
