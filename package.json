@@ -1,22 +1,27 @@
 {
-  "name": "aseguradora",
+  "name": "multas",
   "version": "1.0.0",
-  "description": "API aseguradora",
+  "description": "API multas",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/virmacrom/apimultas.git"
   },
-  "homepage": "https://github.com/virmacrom/apimultas.git",
+  "homepage": "https://github.com/virmacrom/apimultas",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "jest"
   },
-  "author": "Ignacio y Virginia",
+  "author": "Ignacio Delgado",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "nedb": "^1.8.0",
-    "start": "^5.1.0"
+    "nacho": "0.0.1",
+    "nedb": "^1.8.0"
+  },
+  "devDependencies": {
+    "jest": "^24.9.0",
+    "jest-extended": "^0.11.2",
+    "supertest": "^4.0.2"
   }
 }
