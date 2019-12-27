@@ -2,20 +2,20 @@ const app = require('../server.js');
 const request = require('supertest');
 const db = require('../db.js');
 
-describe("test - Hola mundo", () => {
-    it("test básico de prueba", () =>{
-        const a = 9;
-        const b = 8;
-        const sum = a+b;
+// describe("test - Hola mundo", () => {
+//     it("test básico de prueba", () =>{
+//         const a = 9;
+//         const b = 8;
+//         const sum = a+b;
 
-        expect (sum).toBe(17);
+//         expect (sum).toBe(17);
 
-    });
-});
+//     });
+// });
 
 describe("Multas API", () =>{
     describe("GET /", () => {
-        it("Debería devolder un documento HTML", () => {
+        it("Debería devolver un documento HTML", () => {
 
             return request (app).get("/").then((response) => {
                 expect(response.status).toBe(200);
@@ -47,9 +47,9 @@ describe("Multas API", () =>{
         });
     });
 
-    describe('POST /multas',() =>{
+    describe('POST /multas', () =>{
         let dbInsert;
-        const multa ={dni:"918273", puntos: "8", name:"alcohol"};
+        const multa ={dni:"918274", puntos: "10", name:"alcohol", dni:"918273", puntos: "8", name:"velocidad"};
         beforeEach(()=>{
             dbInsert = jest.spyOn(db, "insert");
         });
