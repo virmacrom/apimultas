@@ -1,21 +1,22 @@
 const app = require('../server.js');
-const request = require('supertest');
 const db = require('../db.js');
+const request = require('supertest');
 
-describe("test - Hola mundo", () => {
-    it("test básico de prueba", () =>{
-        const a = 9;
-        const b = 8;
-        const sum = a+b;
 
-        expect (sum).toBe(17);
+// describe("test - Hola mundo", () => {
+//     it("test básico de prueba", () =>{
+//         const a = 9;
+//         const b = 8;
+//         const sum = a+b;
 
-    });
-});
+//         expect (sum).toBe(17);
+
+//     });
+// });
 
 describe("Multas API", () =>{
     describe("GET /", () => {
-        it("Debería devolder un documento HTML", () => {
+        it("Debería devolver un documento HTML", () => {
 
             return request (app).get("/").then((response) => {
                 expect(response.status).toBe(200);
@@ -41,15 +42,16 @@ describe("Multas API", () =>{
         it("Debe devolver todas las multas", () =>{
             return request(app).get('/api/v1/multas').then((response)=> {
                 expect(response.statusCode).toBe(200);
-                expect(response.body).toBeArrayOfSize(2);
                 expect(dbFind).toBeCalledWith({}, expect.any(Function));
             });
         });
     });
 
-    describe('POST /multas',() =>{
+    describe("POST /multas", () =>{
+        
+        const multa ={dni:"918274", puntos: "10", name:"alcohol", rango: "200+"};
         let dbInsert;
-        const multa ={dni:"918273", puntos: "8", name:"alcohol"};
+        
         beforeEach(()=>{
             dbInsert = jest.spyOn(db, "insert");
         });
@@ -62,15 +64,20 @@ describe("Multas API", () =>{
             return request(app).post('/api/v1/multas').send(multa).then((response)=> {
                 expect (response.statusCode).toBe(201);
                 expect (dbInsert).toBeCalledWith(multa, expect.any(Function));
+                
             });
         });
 
         it('Devolvemos mensaje 500 si hay algún problema con la Base de Datos', () => {
-            dbInsert.mockImplementation((c, callback) =>
-            callback(true));
+            dbInsert.mockImplementation((c, callback) =>{
+                callback(true)
+            });
+            
+            
         });
         return request(app).post('/api/v1/multas').send(multa).then((response)=> {
             expect (response.statusCode).toBe(500);
+            
         });
     });
 });
