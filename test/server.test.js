@@ -1,5 +1,6 @@
 const app = require('../server.js');
-const db = require('../db.js');
+//const db = require('../db.js');
+const Multa = require ('../multas.js');
 const request = require('supertest');
 
 
@@ -30,10 +31,10 @@ describe("Multas API", () =>{
 
         beforeAll(() =>{
             const multas =[
-                {"DNI":"123456", "puntos": "5", "name":"Exceso de velocidad"},
-                {"DNI":"789012", "puntos": "0", "name":"atropello"}
+                new Multa({"DNI":"123456", "puntos": "5", "name":"Exceso de velocidad"}),
+                new Multa({"DNI":"789012", "puntos": "0", "name":"atropello"})
             ];
-            dbFind = jest.spyOn(db,"find");
+            dbFind = jest.spyOn(Multa,"find");
             dbFind.mockImplementation((query, callback) =>{
                 callback(null,multas);
             });
@@ -53,7 +54,7 @@ describe("Multas API", () =>{
         let dbInsert;
         
         beforeEach(()=>{
-            dbInsert = jest.spyOn(db, "insert");
+            dbInsert = jest.spyOn(Multa, "create");
         });
 
         it('Test para añadir una nueva multa', () =>{
