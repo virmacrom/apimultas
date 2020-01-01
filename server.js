@@ -1,7 +1,9 @@
-const db = require ('./db.js');
+//const db = require ('./db.js');
 
 var express = require('express');
 var bodyParser = require('body-parser');
+
+const Multa = require ('./multas');
 
 var BASE_API_PATH = "/api/v1";
 
@@ -14,14 +16,16 @@ app.get("/",(rew,res)=>{
 
 app.get(BASE_API_PATH + "/multas", (req, res) =>{
     console.log(Date() + " - GET /multas");
-    db.find({},(err, multas) =>{
+   //ya no es db, ahora es Multa
+    Multa.find({},(err, multas) =>{
         if(err){
             console.log(Date () + " - " + err);
             res.sendStatus(500);
         }else{
             res.send(multas.map((multa) => {
-                delete multa._id;
-                return multa;
+                return multa.cleanup();
+                // delete multa._id;
+                // return multa;
             }));
         }
     });
@@ -30,7 +34,8 @@ app.get(BASE_API_PATH + "/multas", (req, res) =>{
 app.post(BASE_API_PATH + "/multas", (req, res) =>{
     console.log(Date() + " - POST /multas");
     var multa = req.body;
-    db.insert(multa, (err) => {
+    //ya no es db.insert, ahora es multa.create
+    Multa.create(multa, (err) => {
         if (err){
             console.log (Date () + " - " + err);
             res.sendStatus(500);
