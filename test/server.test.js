@@ -48,7 +48,7 @@ describe("Multas API", () =>{
         });
     });
 
-    describe("POST /multas", () =>{
+    describe("POST /multas", async() =>{
         
         const multa ={dni:"918274", puntos: "10", name:"alcohol", rango: "200+"};
         let dbInsert;
