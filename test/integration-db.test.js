@@ -22,7 +22,7 @@ describe('Multas DB connection', () =>{
                 done();
             });
         });
-    }, 30000);
+    }, 300000);
 
     afterAll((done) =>{
         mongoose.connection.db.dropDatabase(()=>{

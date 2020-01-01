@@ -48,12 +48,12 @@ describe("Multas API", () =>{
         });
     });
 
-    describe("POST /multas", async() =>{
+    describe("POST /multas", () => {
         
         const multa ={dni:"918274", puntos: "10", name:"alcohol", rango: "200+"};
         let dbInsert;
         
-        beforeEach(()=>{
+        beforeEach(()=>{  
             dbInsert = jest.spyOn(Multa, "create");
         });
 
@@ -71,14 +71,12 @@ describe("Multas API", () =>{
 
         it('Devolvemos mensaje 500 si hay algún problema con la Base de Datos', () => {
             dbInsert.mockImplementation((c, callback) =>{
-                callback(true)
+                callback(true);
             });
-            
             
         });
         return request(app).post('/api/v1/multas').send(multa).then((response)=> {
             expect (response.statusCode).toBe(500);
-            
         });
     });
 });
