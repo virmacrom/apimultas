@@ -49,8 +49,8 @@ app.post(BASE_API_PATH + "/multas", (req, res) =>{
             res.sendStatus(201);
         }
     });
-    multas.push(multa);
-    res.sendStatus(201);
+  //  multas.push(multa);
+   // res.sendStatus(201);
 });
 
 app.put(BASE_API_PATH + "/multas/editar", (req, res) => {
@@ -63,7 +63,7 @@ app.put(BASE_API_PATH + "/multas/editar/:dni", (req, res) => {
     var updatedMultas = req.body;
     console.log(Date()+" - PUT /multas/editar/"+dni);
 
-    db.update({"dni": dni}, updatedMultas, (err, updateResult) =>{
+    Multa.update({"dni": dni}, updatedMultas, (err, updateResult) =>{
         if(err) res.status(500).send({message: 'error al actualizar'})
         res.status(200).send({multa: updateResult})
     });
@@ -90,7 +90,7 @@ app.put(BASE_API_PATH + "/multas/editar/:dni", (req, res) => {
 
 app.delete(BASE_API_PATH + "/multas", (req, res) => {
     console.log(Date()+" - DELETE /multas");
-    db.remove({}, (err) => {
+    Multa.remove({}, (err) => {
         if(err){
             console.error("Error accesing DB");
             res.sendStatus(500);
@@ -103,7 +103,7 @@ app.delete(BASE_API_PATH + "/multas/:dni", (req, res) => {
     var dni = req.params.dni;
     console.log(Date()+" - DELETE /multas/"+dni);
 
-    db.remove({"dni": dni},(err, removeResult)=>{
+    Multa.remove({"dni": dni},(err, removeResult)=>{
         if(err){
             console.error("Error accesing DB");
             res.sendStatus(500);
