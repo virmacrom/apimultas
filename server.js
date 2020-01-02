@@ -1,27 +1,37 @@
-const db = require ('./db.js');
+//const db = require ('./db.js');
 
 var express = require('express');
 var bodyParser = require('body-parser');
+
+const Multa = require ('./multas');
+const passport = require ('passport');
+
+require('./passport.js');
 
 var BASE_API_PATH = "/api/v1";
 
 var app = express();
 app.use(bodyParser.json());
+app.use(passport.initialize());
 
-app.get("/",(rew,res)=>{
+app.get("/",(req,res)=>{
     res.send("<html><body><h1>My server multas</h1></body></html>")
 });
 
-app.get(BASE_API_PATH + "/multas", (req, res) =>{
+app.get(BASE_API_PATH + "/multas", 
+    passport.authenticate('localapikey', {session:false}),
+    (req, res) =>{
     console.log(Date() + " - GET /multas");
-    db.find({},(err, multas) =>{
+   //ya no es db, ahora es Multa
+    Multa.find({},(err, multas) =>{
         if(err){
             console.log(Date () + " - " + err);
             res.sendStatus(500);
         }else{
             res.send(multas.map((multa) => {
-                delete multa._id;
-                return multa;
+                return multa.cleanup();
+                // delete multa._id;
+                // return multa;
             }));
         }
     });
@@ -30,7 +40,8 @@ app.get(BASE_API_PATH + "/multas", (req, res) =>{
 app.post(BASE_API_PATH + "/multas", (req, res) =>{
     console.log(Date() + " - POST /multas");
     var multa = req.body;
-    db.insert(multa, (err) => {
+    //ya no es db.insert, ahora es multa.create
+    Multa.create(multa, (err) => {
         if (err){
             console.log (Date () + " - " + err);
             res.sendStatus(500);
@@ -38,8 +49,8 @@ app.post(BASE_API_PATH + "/multas", (req, res) =>{
             res.sendStatus(201);
         }
     });
-    multas.push(multa);
-    res.sendStatus(201);
+  //  multas.push(multa);
+   // res.sendStatus(201);
 });
 
 app.put(BASE_API_PATH + "/multas/editar", (req, res) => {
@@ -52,7 +63,7 @@ app.put(BASE_API_PATH + "/multas/editar/:dni", (req, res) => {
     var updatedMultas = req.body;
     console.log(Date()+" - PUT /multas/editar/"+dni);
 
-    db.update({"dni": dni}, updatedMultas, (err, updateResult) =>{
+    Multa.update({"dni": dni}, updatedMultas, (err, updateResult) =>{
         if(err) res.status(500).send({message: 'error al actualizar'})
         res.status(200).send({multa: updateResult})
     });
@@ -79,7 +90,7 @@ app.put(BASE_API_PATH + "/multas/editar/:dni", (req, res) => {
 
 app.delete(BASE_API_PATH + "/multas", (req, res) => {
     console.log(Date()+" - DELETE /multas");
-    db.remove({}, (err) => {
+    Multa.remove({}, (err) => {
         if(err){
             console.error("Error accesing DB");
             res.sendStatus(500);
@@ -92,7 +103,7 @@ app.delete(BASE_API_PATH + "/multas/:dni", (req, res) => {
     var dni = req.params.dni;
     console.log(Date()+" - DELETE /multas/"+dni);
 
-    db.remove({"dni": dni},(err, removeResult)=>{
+    Multa.remove({"dni": dni},(err, removeResult)=>{
         if(err){
             console.error("Error accesing DB");
             res.sendStatus(500);

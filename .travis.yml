@@ -4,11 +4,16 @@ node_js:
     - "9"
 services:
     - docker
+    - mongodb
 before_install:
     - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 install:
     - npm install
+# before_script:
+#     - sleep 15
+#     - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
 script:
+    - npm test
     - docker build -t multas .
 deploy:
     provider: script
