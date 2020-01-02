@@ -1,6 +1,8 @@
 const app = require('../server.js');
-const db = require('../db.js');
+//const db = require('../db.js');
+const Multa = require ('../multas.js');
 const request = require('supertest');
+const ApiKey = require ('../apikeys');
 
 
 // describe("test - Hola mundo", () => {
@@ -30,30 +32,41 @@ describe("Multas API", () =>{
 
         beforeAll(() =>{
             const multas =[
-                {"DNI":"123456", "puntos": "5", "name":"Exceso de velocidad"},
-                {"DNI":"789012", "puntos": "0", "name":"atropello"}
+                new Multa({"DNI":"123456", "puntos": "5", "name":"Exceso de velocidad"}),
+                new Multa({"DNI":"789012", "puntos": "0", "name":"atropello"})
             ];
-            dbFind = jest.spyOn(db,"find");
+
+            const user = {
+                user: "test",
+                apikey: "1"
+            }
+
+            dbFind = jest.spyOn(Multa,"find");
             dbFind.mockImplementation((query, callback) =>{
                 callback(null,multas);
             });
+
+            auth = jest.spyOn(ApiKey, "findOne");
+            auth.mockImplementation((query, callback) =>{
+                callback (null, new ApiKey(user));
+            })
         });
 
         it("Debe devolver todas las multas", () =>{
-            return request(app).get('/api/v1/multas').then((response)=> {
+            return request(app).get('/api/v1/multas').set('apikey', '1').then((response)=> {
                 expect(response.statusCode).toBe(200);
                 expect(dbFind).toBeCalledWith({}, expect.any(Function));
             });
         });
     });
 
-    describe("POST /multas", () =>{
+    describe("POST /multas", () => {
         
         const multa ={dni:"918274", puntos: "10", name:"alcohol", rango: "200+"};
         let dbInsert;
         
-        beforeEach(()=>{
-            dbInsert = jest.spyOn(db, "insert");
+        beforeEach(()=>{  
+            dbInsert = jest.spyOn(Multa, "create");
         });
 
         it('Test para añadir una nueva multa', () =>{
@@ -70,14 +83,12 @@ describe("Multas API", () =>{
 
         it('Devolvemos mensaje 500 si hay algún problema con la Base de Datos', () => {
             dbInsert.mockImplementation((c, callback) =>{
-                callback(true)
+                callback(true);
             });
-            
             
         });
         return request(app).post('/api/v1/multas').send(multa).then((response)=> {
             expect (response.statusCode).toBe(500);
-            
         });
     });
 });
