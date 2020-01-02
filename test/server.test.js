@@ -2,6 +2,7 @@ const app = require('../server.js');
 //const db = require('../db.js');
 const Multa = require ('../multas.js');
 const request = require('supertest');
+const ApiKey = require ('../apikeys');
 
 
 // describe("test - Hola mundo", () => {
@@ -34,14 +35,25 @@ describe("Multas API", () =>{
                 new Multa({"DNI":"123456", "puntos": "5", "name":"Exceso de velocidad"}),
                 new Multa({"DNI":"789012", "puntos": "0", "name":"atropello"})
             ];
+
+            const user = {
+                user: "test",
+                apikey: "1"
+            }
+
             dbFind = jest.spyOn(Multa,"find");
             dbFind.mockImplementation((query, callback) =>{
                 callback(null,multas);
             });
+
+            auth = jest.spyOn(ApiKey, "findOne");
+            auth.mockImplementation((query, callback) =>{
+                callback (null, new ApiKey(user));
+            })
         });
 
         it("Debe devolver todas las multas", () =>{
-            return request(app).get('/api/v1/multas').then((response)=> {
+            return request(app).get('/api/v1/multas').set('apikey', '1').then((response)=> {
                 expect(response.statusCode).toBe(200);
                 expect(dbFind).toBeCalledWith({}, expect.any(Function));
             });

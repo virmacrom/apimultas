@@ -4,17 +4,23 @@ var express = require('express');
 var bodyParser = require('body-parser');
 
 const Multa = require ('./multas');
+const passport = require ('passport');
+
+require('./passport.js');
 
 var BASE_API_PATH = "/api/v1";
 
 var app = express();
 app.use(bodyParser.json());
+app.use(passport.initialize());
 
-app.get("/",(rew,res)=>{
+app.get("/",(req,res)=>{
     res.send("<html><body><h1>My server multas</h1></body></html>")
 });
 
-app.get(BASE_API_PATH + "/multas", (req, res) =>{
+app.get(BASE_API_PATH + "/multas", 
+    passport.authenticate('localapikey', {session:false}),
+    (req, res) =>{
     console.log(Date() + " - GET /multas");
    //ya no es db, ahora es Multa
     Multa.find({},(err, multas) =>{
