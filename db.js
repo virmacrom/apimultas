@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const DB_URL = (process.env.MONGO_URL || 'mongodb://localhost/test');
+const DB_URL = (process.env.MONGO_URL || 'mongodb+srv://Virginia:MongoUS123@cluster0-4eldc.mongodb.net/test?retryWrites=true&w=majority');
 
 const dbConnect =function(){
     const db = mongoose.connection;
