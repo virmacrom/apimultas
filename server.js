@@ -37,6 +37,25 @@ app.get(BASE_API_PATH + "/multas",
     });
 });
 
+app.get(BASE_API_PATH + "/multas/:dni", 
+    passport.authenticate('localapikey', {session:false}),
+    (req, res) =>{
+        var dni = req.params.dni;
+          console.log(Date() + " - GET /multas/:dni");
+          //ya no es db, ahora es Multa
+          Multa.find({"dni":dni},(err,multas) =>{
+           if(err){
+            console.error("Error accesing DB");
+            res.sendStatus(500);
+          }else{
+            res.send(multas[0].cleanup());
+            if(multas.length>1) {
+                console.warn("Incosistent DB: duplicated dni");
+            }
+        } 
+    });
+});
+
 app.post(BASE_API_PATH + "/multas", (req, res) =>{
     console.log(Date() + " - POST /multas");
     var multa = req.body;

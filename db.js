@@ -17,6 +17,6 @@ const dbConnect =function(){
 // });
 
 // module.exports=db;
-console.log(DB_URL);
+//console.log(DB_URL);
 
 module.exports=dbConnect;
