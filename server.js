@@ -63,7 +63,7 @@ app.post(BASE_API_PATH + "/multas", (req, res) =>{
     /*VALIDACION DEL DNI*/
     
     var vector = ["T","R","W","A","G","M","Y","F","P","D","X","B","N","J","Z","S","Q","V","M","L","C","K","E"]
-    var dniJunto = multa.getElementById("dni").value;
+    var dniJunto = multa.getElementById("dni").dni;
     var dniJuntoMayuscula = "";
     var comprobador = 0;
     var numerosDni = 0;
