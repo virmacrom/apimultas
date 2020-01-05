@@ -60,65 +60,30 @@ app.post(BASE_API_PATH + "/multas", (req, res) =>{
     console.log(Date() + " - POST /multas");
     var multa = req.body;
 
-    /*VALIDACION DEL DNI*/
+    /*VALIDACION DEL DNI
     
-    var vector = ["T","R","W","A","G","M","Y","F","P","D","X","B","N","J","Z","S","Q","V","M","L","C","K","E"]
-    var dniJunto = multa.getElementById("dni").dni;
-    var dniJuntoMayuscula = "";
-    var comprobador = 0;
-    var numerosDni = 0;
-    var letra = "";
-    var residuo;
-    var contador = 0;
-    var dniSeparado = dniJunto.split("");
+    var numero
+    var letr
+    var letra
+    var expresion_regular_dni = multa.dni;
  
-      for(contador=0;contador<dniSeparado.length;cont++){
-        //Los primeros 8 caracteres tienen que ser números
-        if (contador <= 7) {
-            if (isNaN(dniSeparado[contador])) {
-                comprobador = 1;
-                //DNI es un String y no un número
-            }
-        }else {  
-            //comprobar que el noveno caracter del dni no es un número
-            if (isNaN(dniSeparado[8])) {
-                dniSeparado = dniSeparado[8].toUpperCase();
-            } else {
-                comprobador = 1;
+    expresion_regular_dni = /^\d{8}[a-zA-Z]$/;
  
-            }
+     if(expresion_regular_dni.test (dni) == true){
+            numero = dni.substr(0,dni.length-1);
+            letr = dni.substr(dni.length-1,1);
+            numero = numero % 23;
+            letra='TRWAGMYFPDXBNJZSQVHLCKET';
+            letra=letra.substring(numero,numero+1);
+             if (letra!=letr.toUpperCase()) {
+                alert('Dni erroneo, la letra del NIF no se corresponde');
+            }else{
+                 alert('Dni correcto');
+           }
+        } else{
+              alert('Dni erroneo, formato no válido');
         }
-    }
-    //para comprobar que la longitud sea 9
-    if(contador!=9){
-      comprobador = 1;
-        //faltan números o letra
-    }else{
-        dniJuntoMayuscula = dniSeparado.join("");
- 
-        //vamos a juntar los 8 numeros del dni
- 
-        numerosDni = dniJuntoMayuscula.substring(0, 8);
- 
-        //vamos a guardar la letra del DNI
- 
-        letra = dniJuntoMayuscula.substring(8, 9);
- 
-        residuo = numeroDni % 23;
- 
-        if (vector[residuo] != letra) {
-            comprobador = 2;
- 
-        }
-    } 
- 
-    if (comprobador==0){
-        alert("El DNI es incorrecto");
-    }else if(comprobador==1){
-      alert("El DNI es incorrecto");
-    }else if(comprobador==2){
-        alert("Letra del DNI mal puesta");
-    }
+
     
     /*FIN DE LA VALIDACION DEL DNI*/
 
@@ -135,21 +100,30 @@ app.post(BASE_API_PATH + "/multas", (req, res) =>{
   //  multas.push(multa);
    // res.sendStatus(201);
 });
-
+/*
 app.put(BASE_API_PATH + "/multas/editar", (req, res) => {
     console.log(Date()+" - PUT /multas/editar");
     res.sendStatus(405);
-});
+});*/
 
 app.put(BASE_API_PATH + "/multas/editar/:dni", (req, res) => {
-    var dni = req.params.dni;
-    var updatedMultas = req.body;
-    console.log(Date()+" - PUT /multas/editar/"+dni);
+    console.log(Date()+" - PUT /multas/editar");
+    
+    let nuevoDni=req.params.dni;
+    let update = req.body
 
-    Multa.update({"dni": dni}, updatedMultas, (err, updateResult) =>{
-        if(err) res.status(500).send({message: 'error al actualizar'})
-        res.status(200).send({multa: updateResult})
+    console.log(req.body); 
+
+    Multa.findByIdAndUpdate(req.body.dni, update, (err, multaActualizada)=>{
+        if (err) {
+            return res.status(500).send({message: "Error al actualizar"})
+            
+        }else {
+            return res.status(200).send({multa: "Multa actualizada"})
+        }
     });
+    
+   
     // if(dni != updatedMultas.dni){
     //     res.sendStatus(409);
     //     return;
