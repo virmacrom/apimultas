@@ -1,5 +1,9 @@
 const app =require('./server.js');
 const dbConnect = require('./db');
+const bodyParser = require('body-parser')
+
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
 
 var port = (process.env.PORT || 3000);
 
@@ -14,7 +18,3 @@ dbConnect().then(
         console.log("connection ERROR: "+err);
     }
 )
-
-//app.listen(port);
-
-console.log("Server ready 2!");
