@@ -2,7 +2,8 @@ const swaggerUi = require ('swagger-ui-express');
 const swaggerJsDoc = require ('swagger-jsdoc');
 
 const options = {
-    "swagger": "2.0",
+    // "swagger": "2.0",
+    "openapi": "3.0.0",
     swaggerDefinition: {
 
         info: {
@@ -21,6 +22,21 @@ const options = {
             'http',
             'https'
         ],
+        components: [
+          {
+            securityDefinitions:{
+              APIKeyHeader: {
+                "type": "apiKey",
+                "in": "header",  
+                "name": "apikey"  
+              },
+            },
+          },
+        ],
+
+        security: {
+            "APIKeyHeader": []
+        },
 
         paths: {
             '/api/v1/multas': {
@@ -35,6 +51,7 @@ const options = {
                       required: true,
                     }
                   ],
+
                   responses: {
                     200: {
                       description: "create response",
@@ -47,19 +64,24 @@ const options = {
                 responses: {
                   200: {
                     description: "create response",
-                  }
-                }
+                  },
+                
+                },
+                security:[{
+                  APIKeyHeader: [],
+              }
+              ],
               }
 
             },
 
-            '/api/v1/multas/dni': { 
+            '/api/v1/multas/{dni}': { 
                 get: {
                     tags: ['Multas'],
                     summary: 'Obtener multa por DNI',
                     parameters: [
                         {
-                          dni : 'dni',
+                          name : 'dni',
                           in: "path",
                           description: "El dni de la multa a recuperar. Use 918289B para pruebas",
                           required: true,
@@ -84,11 +106,11 @@ const options = {
                     summary: 'Actualizar multa por DNI',
                     parameters: [
                         {
-                          dni : 'dni',
-                          name :"Fine Parameters",
+                          name: 'dni',
                           in: "path",
-                          description: "El dni de la multa a actualizar. Use 918289B para pruebas",
+                          description: "El dni de la multa a actualizar. Use 11111111A para pruebas",
                           required: true,
+                          type: "string"
                         }
                       ],
                       responses: {
