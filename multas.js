@@ -11,6 +11,7 @@ const multaSchema = new mongoose.Schema({
 multaSchema.methods.cleanup = function(){
     return {dni: this.dni, concepto: this.concepto, puntos: this.puntos, importe: this.importe};
 }
+
 const Multa =mongoose.model('Multa', multaSchema);
 
 module.exports = Multa;
