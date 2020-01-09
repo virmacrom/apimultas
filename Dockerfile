@@ -14,6 +14,7 @@ COPY passport.js .
 COPY setupbd.js .
 COPY apikeys.js .
 COPY db.js .
+COPY swagger-doc.js .
 
 EXPOSE 3000
 
