@@ -82,24 +82,24 @@ app.put(BASE_API_PATH + "/multas/editar", (req, res) => {
     res.sendStatus(405);
 });
 
-app.put(BASE_API_PATH + "/multas/editar/:dni", (req, res) => {
-    var dni = req.params.dni;
+app.put(BASE_API_PATH + "/multas/editar/:_id", (req, res) => {
+    var _id = req.params._id;
     var updatedMultas = req.body;
-    console.log(Date()+" - PUT /multas/editar/"+dni);
+    console.log(Date()+" - PUT /multas/editar/"+_id);
 
-    if(dni != updatedMultas.dni){
-        console.log("El DNI a actualizar no existe en la BD");
+    if(_id != updatedMultas._id){
+        console.log("El id a actualizar no existe en la BD");
         res.sendStatus(409);
         return;
     }
 
-    Multa.update({"dni": dni},updatedMultas, (err,updateResult)=>{
+    Multa.update({"_id": _id},updatedMultas, (err,updateResult)=>{
         if(err){
             console.error("Error accediendo a la BD");
             res.sendStatus(500);
         }else{
             if(updateResult.n>1){
-                console.warn("Inconsistencia en la BD: nombre duplicado");
+                console.warn("Inconsistencia en la BD: id duplicado");
             }else if(updateResult.n == 0) {
                 res.sendStatus(404);
             } else {
@@ -120,11 +120,11 @@ app.delete(BASE_API_PATH + "/multas", (req, res) => {
     res.sendStatus(200);
 });
 
-app.delete(BASE_API_PATH + "/multas/:dni", (req, res) => {
-    var dni = req.params.dni;
-    console.log(Date()+" - DELETE /multas/"+dni);
+app.delete(BASE_API_PATH + "/multas/:_id", (req, res) => {
+    var _id = req.params._id;
+    console.log(Date()+" - DELETE /multas/"+_id);
 
-    Multa.remove({"dni": dni},(err, removeResult)=>{
+    Multa.remove({"_id": _id},(err, removeResult)=>{
         if(err){
             console.error("Error accesing DB");
             res.sendStatus(500);
