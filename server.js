@@ -19,7 +19,7 @@ app.use(passport.initialize());
 swaggerDoc(app);
 
 app.get("/",(req,res)=>{
-    res.send("<html><body><h1>My server multas</h1></body></html>")
+    res.send("<html><body><h1> Página principal del servidor de Api multas.</h1><h2>Acceder a /api-docs para consultar la documentación en swagger</h2></body></html>")
 });
 
 app.get(BASE_API_PATH + "/multas", 
