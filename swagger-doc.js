@@ -110,6 +110,33 @@ const options = {
                       }
                 },
             },
+
+            '/api/v1/multas/nummultas/{dni}': { 
+              get: {
+                  tags: ['Multas'],
+                  summary: 'Obtener el número de multas de un dni dado',
+                  parameters: [
+                      {
+                        name : 'dni',
+                        in: "path",
+                        description: "Obtener el número de multas de un dni dado",
+                        required: true,
+                      }
+                    ],
+                    responses: {
+                      200: {
+                        description: "Operacion correcta"
+                      },
+                      400: {
+                        description: "DNI inválido"
+                      },
+                      404: {
+                        description: "Multa no encontrada"
+                      }
+                    }
+                },
+            },
+
             '/api/v1/multas/editar/{_id}': {
                 put: {
                     tags: ['Multas'],
