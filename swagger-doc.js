@@ -136,7 +136,7 @@ const options = {
                       }
                 }
             },
-            '/api/v1/multas/nummultas/{dni}': { 
+            '/api/v1/multas/numMultas/{dni}': { 
               get: {
                   tags: ['Multas'],
                   summary: 'Obtener el número de multas de un dni dado',
