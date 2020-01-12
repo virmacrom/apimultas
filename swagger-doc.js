@@ -69,8 +69,18 @@ const options = {
                 },
                 security:[{
                   APIKeyHeader: [],
-              }
-              ],
+                }
+                ],
+              },
+
+              delete: {
+                tags: ['Multas'],
+                description: "Eliminar todas las multas",
+                responses: {
+                  200: {
+                    description: "create response",
+                  }
+                }
               }
 
             },
@@ -100,13 +110,13 @@ const options = {
                       }
                 },
             },
-            '/api/v1/multas/editar/{dni}': {
+            '/api/v1/multas/editar/{_id}': {
                 put: {
                     tags: ['Multas'],
                     summary: 'Actualizar multa por DNI',
                     parameters: [
                         {
-                          name: 'dni',
+                          name: '_id',
                           in: "path",
                           description: "El dni de la multa a actualizar. Use 11111111A para pruebas",
                           required: true,
@@ -118,14 +128,41 @@ const options = {
                           description: "Operacion correcta"
                         },
                         400: {
-                          description: "DNI inválido"
+                          description: "Id inválido"
                         },
                         404: {
                           description: "Multa no encontrada"
                         }
                       }
                 }
+            },
+
+            '/api/v1/multas/editar/{_id}': {
+              delete: {
+                tags: ['Multas'],
+                summary: 'Eliminar multas por dni',
+                parameters: [
+                    {
+                      name : '_id',
+                      in: "path",
+                      description: "El id de la multa a eliminar.",
+                      required: true,
+                    }
+                  ],
+                  responses: {
+                    200: {
+                      description: "Operacion correcta"
+                    },
+                    400: {
+                      description: "Id inválido"
+                    },
+                    404: {
+                      description: "Multa no encontrada"
+                    }
+                  }
+               },
             }
+
         },
     },
     apis: ['server.js'],
