@@ -60,12 +60,14 @@ app.get(BASE_API_PATH + "/multas/:dni",
     });
 });
 
+   
 
-app.get(BASE_API_PATH + "/multas/nummultas/:dni", 
+
+app.get(BASE_API_PATH + "/multas/numMultas/:dni", 
     passport.authenticate('localapikey', {session:false}),
     (req, res) =>{
         var dni = req.params.dni;
-          console.log(Date() + " - GET /multas/nummultas/:dni");
+          console.log(Date() + " - GET /multas/numMultas/:dni");
           
           Multa.find({"dni":dni},(err, multas) =>{
               let contador=0;
@@ -74,14 +76,13 @@ app.get(BASE_API_PATH + "/multas/nummultas/:dni",
                 res.sendStatus(500);
             }else{
                 res.send(multas.map((multa) => {
+                    //return multa.cleanup();
                     contador++;
-                   console.log("números de multas con el dni " + dni +" : " +contador);
-                   // return multa.toJSON;
+                    console.log("números de multas con el dni " + dni +" : " +contador);
+                    return contador;
 
-                }));
-                console.log(contador);
-                res =contador;
-                return contador;
+                })); 
+                
                 
             }
         });
