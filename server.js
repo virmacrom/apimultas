@@ -76,11 +76,10 @@ app.get(BASE_API_PATH + "/multas/numMultas/:dni",
                     contador++;
                    console.log("Números de multas con el dni " + dni +" : " +contador);
                    // return multa.toJSON;
+                   return contador;
 
                 }));
                 console.log(contador);
-                res =contador;
-                return contador;
                 
             }
         });
