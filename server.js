@@ -79,7 +79,7 @@ app.get(BASE_API_PATH + "/multas/numMultas/:dni",
                    return contador;
 
                 }));
-                console.log(contador);
+               // console.log(contador);
                 
             }
         });
