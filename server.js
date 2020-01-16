@@ -52,10 +52,10 @@ app.get(BASE_API_PATH + "/multas/:dni",
             console.error("Error accesing DB");
             res.sendStatus(500);
           }else{
-            res.send(multas[0].cleanup());
-            if(multas.length>1) {
-                console.warn("Incosistent DB: duplicated dni");
-            }
+            res.send(multas);
+            //  if(multas.length>1) {
+            //      console.warn("Incosistent DB: duplicated dni");
+            //  }
         } 
     });
 });
@@ -180,9 +180,7 @@ app.delete(BASE_API_PATH + "/multas/deleteAll/:dni", (req, res) => {
             console.error("Error accesing DB");
             res.sendStatus(500);
         }else{
-            if(removeResult.n>1){
-                console.warn("Incosistent DB: duplicated name");
-            }else if(removeResult.n == 0) {
+            if(removeResult.n == 0) {
                 res.sendStatus(404);
             } else {
                 res.sendStatus(200);

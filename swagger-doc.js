@@ -1,10 +1,8 @@
 const swaggerUi = require ('swagger-ui-express');
-const swaggerJsDoc = require ('swagger-jsdoc');
+//const swaggerJsDoc = require ('swagger-jsdoc');
 
 const options = {
-    // "swagger": "2.0",
-    "openapi": "3.0.0",
-    swaggerDefinition: {
+    "swagger": "2.0",
 
         info: {
             title: 'API Multas',
@@ -22,17 +20,15 @@ const options = {
             'http',
             'https'
         ],
-        components: [
-          {
-            securityDefinitions:{
-              APIKeyHeader: {
-                "type": "apiKey",
-                "in": "header",  
-                "name": "apikey"  
-              },
-            },
+        
+        securityDefinitions:{
+          APIKeyHeader: {
+            "type": "apiKey",
+            "in": "header",  
+            "name": "apikey"  
           },
-        ],
+        },
+         
 
         security: {
             "APIKeyHeader": []
@@ -191,12 +187,11 @@ const options = {
             }
 
         },
-    },
+
     apis: ['server.js'],
 };
 
-const specs = swaggerJsDoc(options);
 
 module.exports = (app) =>{ 
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(options));
 }
