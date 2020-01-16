@@ -5,6 +5,8 @@ node_js:
 services:
     - docker
     - mongodb
+env:
+    - MONGO_URL="mongodb://localhost/multas"
 before_install:
     - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 install:
