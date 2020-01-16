@@ -72,17 +72,23 @@ app.get(BASE_API_PATH + "/multas/numMultas/:dni",
                 console.log(Date () + " - " + err);
                 res.sendStatus(500);
             }else{
-                res.send(multas.map((multa) => {
-                    contador++;
-                   console.log("Números de multas con el dni " + dni +" : " +contador);
-                   // return multa.toJSON;
-                   return contador;
 
-                }));
-               // console.log(contador);
-                
+               // res.send(multas);  // => { map((multa) => {
+                //    contador++;
+                  // console.log("Números de multas con el dni " + dni +" : " +contador);
+                   // return multa.toJSON;
+               //    return multas.length; //contador;
+                //////   console.log(multas.length);
+
+                console.log(multas);
+
+                res.send(multas);
+
+              //  });
+        
             }
         });
+
 });
 
 app.post(BASE_API_PATH + "/multas", (req, res) =>{
@@ -150,6 +156,26 @@ app.delete(BASE_API_PATH + "/multas/:_id", (req, res) => {
     console.log(Date()+" - DELETE /multas/"+_id);
 
     Multa.remove({"_id": _id},(err, removeResult)=>{
+        if(err){
+            console.error("Error accesing DB");
+            res.sendStatus(500);
+        }else{
+            if(removeResult.n>1){
+                console.warn("Incosistent DB: duplicated name");
+            }else if(removeResult.n == 0) {
+                res.sendStatus(404);
+            } else {
+                res.sendStatus(200);
+            }
+        }
+    });
+});
+
+app.delete(BASE_API_PATH + "/multas/deleteAll/:dni", (req, res) => {
+    var dni = req.params.dni;
+    console.log(Date()+" - DELETE /multas/deleteAll"+dni);
+
+    Multa.remove({"dni": dni},(err, removeResult)=>{
         if(err){
             console.error("Error accesing DB");
             res.sendStatus(500);
