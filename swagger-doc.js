@@ -107,7 +107,7 @@ const options = {
                 },
             },
 
-            '/api/v1/multas/nummultas/{dni}': { 
+            '/api/v1/multas/numMultas/{dni}': { 
               get: {
                   tags: ['Multas'],
                   summary: 'Obtener el número de multas de un dni dado',
@@ -181,6 +181,32 @@ const options = {
                     },
                     404: {
                       description: "Multa no encontrada"
+                    }
+                  }
+               },
+            },
+
+            '/api/v1/multas/deleteAll/{dni}': {
+              delete: {
+                tags: ['Multas'],
+                summary: 'Eliminar el DNI',
+                parameters: [
+                    {
+                      name : 'dni',
+                      in: "path",
+                      description: "El DNI a borrar.",
+                      required: true,
+                    }
+                  ],
+                  responses: {
+                    200: {
+                      description: "Operacion correcta"
+                    },
+                    400: {
+                      description: "DNI inválido"
+                    },
+                    404: {
+                      description: "DNI no encontrado"
                     }
                   }
                },
